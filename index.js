@@ -1,33 +1,14 @@
-require("dotenv").config();
-const express = require("express");
-const app = express();
-const famousCountries = [
-  { name: "United States" },
-  { name: "Canada" },
-  { name: "United Kingdom" },
-  { name: "Germany" },
-  { name: "France" },
-  { name: "Italy" },
-  { name: "Spain" },
-  { name: "Australia" },
-  { name: "Japan" },
-  { name: "China" },
-  { name: "India" },
-  { name: "Brazil" },
-  { name: "Mexico" },
-  { name: "Russia" },
-  { name: "South Korea" },
-  { name: "Saudi Arabia" },
-  { name: "Netherlands" },
-  { name: "Switzerland" },
-  { name: "South Africa" },
-  { name: "Turkey" },
-];
+import { app } from "./app.js";
+import connectDB from "./db.js";
+import dotenv from "dotenv";
+dotenv.config();
 
-app.get("/", (req, res) => {
-  res.send(famousCountries);
-});
+const port = process.env.PORT || 3000;
 
-app.listen(process.env.PORT, () => {
-  console.log(`Example app listening on port ${process.env.PORT}`);
-});
+connectDB()
+  .then((res) => {
+    app.listen(port, () => {
+      console.log(`App running on http://localhost:${port}`);
+    });
+  })
+  .catch((error) => console.log("mongo db connection error ", error));
